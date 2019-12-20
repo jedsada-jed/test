@@ -15,7 +15,10 @@ https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=mongolia
 
 https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+in+เขตบางซื่อ+กรุงเทพมหานคร&location=40.67,-73.94&radius=100&key=AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI
 
-https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+in+bangsue+bangkok&radius=3000&key=AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI&fields==&fields=
+###
+https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+in+bangsue+bangkok&radius=3000&key=AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI&fields==
+
+
 
 
 https://developers.google.com/places/web-service/search#TextSearchRequests
