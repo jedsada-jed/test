@@ -23,7 +23,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { AppBar } from '../components/common'
+import { AppBar } from '../components/common/AppBar'
 
 
 const SequenceScreen: () => React$Node = () => {

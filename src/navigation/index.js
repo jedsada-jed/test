@@ -1,9 +1,9 @@
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import MainScreen from './src/screens/MainScreen'
-import SequenceScreen from './src/screens/SequenceScreen'
-import RestaurantScreen from './src/screens/RestaurantScreen'
+import MainScreen from '../screens/MainScreen'
+import SequenceScreen from '../screens/SequenceScreen'
+import RestaurantScreen from '../screens/RestaurantScreen'
 
 const RootStack = createStackNavigator({
   Main: {
