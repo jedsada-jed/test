@@ -8,108 +8,72 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
+  TouchableHighlight,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
+import { useRestaurantList } from '../hooks'
+import AppBar from '../components/common/AppBar';
+import * as Colors from '../constants/color'
+import MainTemplate from '../components/templates/MainTemplate';
+import { FlatList } from 'react-native-gesture-handler';
 
-const RestaurantScreen: () => React$Node = () => {
+const RestaurantScreen = () => {
+  const { restaurants, clearData } = useRestaurantList();
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Restaurant.js
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <MainTemplate
+      appBarColor={[Colors.YELLOW, Colors.YELLOW]}
+      safeAreaBottomColor={Colors.YELLOW}
+      safeAreaTopColor={Colors.YELLOW}
+      title={'Restaurant'}>
+      <View style={styles.container}>
+        <FlatList
+          data={restaurants}
+          renderItem={({ item, index, separators }) => (
+            <TouchableHighlight
+              onPress={() => alert}
+              style={styles.item}
+              onShowUnderlay={separators.highlight}
+              onHideUnderlay={separators.unhighlight}>
+              <View style={{ backgroundColor: 'white' }}>
+                <Text>{item.name}</Text>
+                {/* <Text>{JSON.stringify(item)}</Text> */}
+              </View>
+            </TouchableHighlight>)}
+        />
+      </View>
+
+    </MainTemplate>
   );
 };
 
-RestaurantScreen.routeName = "123"
-
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    paddingTop: 10,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  item: {
+    height: 85,
+    shadowColor: Colors.BLACK,
+    borderRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 2,
+    flex: 1,
+    backgroundColor: Colors.WHITE,
+    marginBottom: 20,
+    padding: 0,
+    width: '95%',
+    alignSelf: 'center'
   },
 });
 
