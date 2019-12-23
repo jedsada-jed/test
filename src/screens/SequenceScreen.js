@@ -23,7 +23,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { AppBar } from '../components/common'
+import AppBar from '../components/common/AppBar';
 
 
 const SequenceScreen: () => React$Node = () => {
@@ -44,7 +44,7 @@ const SequenceScreen: () => React$Node = () => {
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
-                SequenceScreen.js
+                {'SequenceScreen.js'}
               </Text>
             </View>
             <View style={styles.sectionContainer}>
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SequenceScreen
+export default SequenceScreen;

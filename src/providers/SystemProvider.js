@@ -9,8 +9,8 @@ export const SystemProvider = ({ children }) => {
   return (
     <SystemContext.Provider
       value={{
-        restaurantState,
-        restaurantDispatch
+        systemState,
+        systemDispatch
       }}
     >
       {children}

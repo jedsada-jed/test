@@ -19,7 +19,6 @@ const errorHandler = (error) => {
 
 export const configAxios = () => {
   axios.interceptors.request.use(async (config) => {
-    errorHandler();
     return config
   }, function (error) {
     return Promise.reject(error)

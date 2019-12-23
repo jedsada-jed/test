@@ -1,116 +1,119 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
+  Image,
+  Linking,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableHighlight,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { useRestaurantList } from '../hooks'
+import * as Colors from '../constants/color'
+import { SystemContext } from '../providers'
+import MainTemplate from '../components/templates/MainTemplate';
+import { FlatList } from 'react-native-gesture-handler';
+import { GOOGLE_MAP_URL } from '../constants/url'
+import { GOOGLE_API_KEY } from '../../configs/google';
 
+const RestaurantScreen = () => {
+  const { restaurants } = useRestaurantList();
+  const { systemState } = useContext(SystemContext);
+  const { isLoading } = systemState;
 
-const RestaurantScreen: () => React$Node = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
+    <MainTemplate
+      title={'Restaurant'}
+      fontColor={Colors.BLACK}
+      statusBarColor={Colors.YELLOW}
+      safeAreaTopColor={Colors.YELLOW}
+      safeAreaBottomColor={Colors.YELLOW}
+      appBarColor={[Colors.YELLOW, Colors.YELLOW]}>
+      <View style={styles.container}>
+        {isLoading && <ActivityIndicator size="large" color={Colors.RED} />}
+        <FlatList
+          data={restaurants}
+          renderItem={({ item, separators }) => (
+            <TouchableHighlight
+              onPress={() => Linking.openURL('https://www.google.co.th/maps')}
+              style={styles.item}
+              underlayColor={Colors.LIGHT_GRAY}
+              onShowUnderlay={separators.highlight}
+              onHideUnderlay={separators.unhighlight}>
+              <View style={styles.wrapperItem}>
+                <View style={styles.wrapperImg}>
+                  <Image
+                    style={styles.img}
+                    source={
+                      (item.photos && item.photos.length) > 0
+                        ? { uri: `${GOOGLE_MAP_URL}/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&maxwidth=100&key=${GOOGLE_API_KEY}` }
+                        : require('../assets/images/image_default.png')
+                    }
+                  />
+                </View>
+                <View style={styles.wrapperText}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text numberOfLines={2} style={styles.address}>
+                    {item.formatted_address}
+                  </Text>
+                </View>
+              </View>
+            </TouchableHighlight>
           )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Restaurant.js
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        />
+      </View>
+    </MainTemplate>
   );
 };
 
-RestaurantScreen.routeName = "123"
-
-
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  name: {
+    fontSize: 16,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  wrapperText: {
+    flex: 1,
   },
-  body: {
-    backgroundColor: Colors.white,
+  wrapperImg: {
+    width: 120,
+    justifyContent: 'center',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
+  address: {
     fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+    color: Colors.SILVER,
+  },
+  img: {
+    width: 100,
+    height: 75,
+  },
+  wrapperItem: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 6,
+  },
+  container: {
+    flex: 1,
+    paddingTop: 10,
+  },
+  item: {
+    height: 85,
+    shadowColor: Colors.BLACK,
+    borderRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 2,
+    flex: 1,
+    backgroundColor: Colors.WHITE,
+    marginBottom: 15,
+    paddingVertical: 5,
+    marginTop: 3,
+    width: '95%',
+    alignSelf: 'center',
   },
 });
 
-export default RestaurantScreen
+export default RestaurantScreen;
