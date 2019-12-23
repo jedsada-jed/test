@@ -1,26 +1,32 @@
 
-//import liraries
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import AppBar from '../common/AppBar'
 import Footer from '../common/Footer'
 import * as Colors from '../../constants/color';
 
-// create a component
 const MainTemplate = ({
   title,
   children,
   hideBackBtn,
-  appBarColor,
+  fontColor = Colors.WHITE,
+  statusBarColor = Colors.RED,
   safeAreaTopColor = Colors.RED,
   backgroundColor = Colors.WHITE,
-  safeAreaBottomColor = Colors.RED_DARK,
+  safeAreaBottomColor = Colors.DARK_RED,
+  appBarColor = [Colors.RED, Colors.DARK_RED],
 }) => {
   return (
     <>
       <SafeAreaView style={{ flex: 0, backgroundColor: safeAreaTopColor }} />
       <View style={[styles.container, { backgroundColor }]}>
-        <AppBar appBarColor={appBarColor} title={title} hideBackBtn={hideBackBtn} />
+        <AppBar
+          title={title}
+          fontColor={fontColor}
+          appBarColor={appBarColor}
+          hideBackBtn={hideBackBtn}
+          statusBarColor={statusBarColor}
+        />
         {children}
         <Footer />
       </View>
@@ -29,12 +35,10 @@ const MainTemplate = ({
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 });
 
-//make this component available to the app
 export default MainTemplate;

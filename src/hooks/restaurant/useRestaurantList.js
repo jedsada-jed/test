@@ -1,20 +1,23 @@
 import { useEffect, useContext } from "react";
-import { RestaurantContext } from "../../providers";
-import { GET_DATA, CLEAR_DATA } from '../../constants/action-type'
-import { GOOGLE_MAP_URL } from '../../constants/url'
+import { RestaurantContext, SystemContext } from "../../providers";
 import axios from "axios";
+import { GOOGLE_MAP_URL } from '../../constants/url'
+import { GOOGLE_API_KEY } from '../../../configs/google'
+import { GET_DATA, CLEAR_DATA, LOADING, UNLOADING } from '../../constants/action-type'
 
 export const useRestaurantList = () => {
   const { restaurantState, restaurantDispatch } = useContext(RestaurantContext)
+  const { systemDispatch } = useContext(SystemContext)
 
   useEffect(() => {
 
     const fetchData = async () => {
       const query = 'food+in+bangsue+bangkok'
       const radius = 3000
-      const apiKey = 'AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI&fields=='
-      const resp = await axios.get(`${GOOGLE_MAP_URL}/maps/api/place/textsearch/json?query=${query}&radius=${radius}&key=${apiKey}`)
-      
+      systemDispatch({ type: LOADING })
+      const resp = await axios.get(`${GOOGLE_MAP_URL}/maps/api/place/textsearch/json?query=${query}&radius=${radius}&key=${GOOGLE_API_KEY}`)
+      systemDispatch({ type: UNLOADING })
+
       restaurantDispatch({
         type: GET_DATA,
         restaurants: resp.data.results

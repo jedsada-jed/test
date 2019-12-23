@@ -1,58 +1,96 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  StyleSheet,
   View,
   Text,
+  Image,
+  Linking,
+  StyleSheet,
+  ActivityIndicator,
   TouchableHighlight,
 } from 'react-native';
 
-
 import { useRestaurantList } from '../hooks'
-import AppBar from '../components/common/AppBar';
 import * as Colors from '../constants/color'
+import { SystemContext } from '../providers'
 import MainTemplate from '../components/templates/MainTemplate';
 import { FlatList } from 'react-native-gesture-handler';
+import { GOOGLE_MAP_URL } from '../constants/url'
+import { GOOGLE_API_KEY } from '../../configs/google';
 
 const RestaurantScreen = () => {
-  const { restaurants, clearData } = useRestaurantList();
+  const { restaurants } = useRestaurantList();
+  const { systemState } = useContext(SystemContext);
+  const { isLoading } = systemState;
 
   return (
     <MainTemplate
-      appBarColor={[Colors.YELLOW, Colors.YELLOW]}
-      safeAreaBottomColor={Colors.YELLOW}
+      title={'Restaurant'}
+      fontColor={Colors.BLACK}
+      statusBarColor={Colors.YELLOW}
       safeAreaTopColor={Colors.YELLOW}
-      title={'Restaurant'}>
+      safeAreaBottomColor={Colors.YELLOW}
+      appBarColor={[Colors.YELLOW, Colors.YELLOW]}>
       <View style={styles.container}>
+        {isLoading && <ActivityIndicator size="large" color={Colors.RED} />}
         <FlatList
           data={restaurants}
-          renderItem={({ item, index, separators }) => (
+          renderItem={({ item, separators }) => (
             <TouchableHighlight
-              onPress={() => alert}
+              onPress={() => Linking.openURL('https://www.google.co.th/maps')}
               style={styles.item}
+              underlayColor={Colors.LIGHT_GRAY}
               onShowUnderlay={separators.highlight}
               onHideUnderlay={separators.unhighlight}>
-              <View style={{ backgroundColor: 'white' }}>
-                <Text>{item.name}</Text>
-                {/* <Text>{JSON.stringify(item)}</Text> */}
+              <View style={styles.wrapperItem}>
+                <View style={styles.wrapperImg}>
+                  <Image
+                    style={styles.img}
+                    source={
+                      (item.photos && item.photos.length) > 0
+                        ? { uri: `${GOOGLE_MAP_URL}/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&maxwidth=100&key=${GOOGLE_API_KEY}` }
+                        : require('../assets/images/image_default.png')
+                    }
+                  />
+                </View>
+                <View style={styles.wrapperText}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text numberOfLines={2} style={styles.address}>
+                    {item.formatted_address}
+                  </Text>
+                </View>
               </View>
-            </TouchableHighlight>)}
+            </TouchableHighlight>
+          )}
         />
       </View>
-
     </MainTemplate>
   );
 };
 
-
 const styles = StyleSheet.create({
+  name: {
+    fontSize: 16,
+  },
+  wrapperText: {
+    flex: 1,
+  },
+  wrapperImg: {
+    width: 120,
+    justifyContent: 'center',
+  },
+  address: {
+    fontSize: 12,
+    color: Colors.SILVER,
+  },
+  img: {
+    width: 100,
+    height: 75,
+  },
+  wrapperItem: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 6,
+  },
   container: {
     flex: 1,
     paddingTop: 10,
@@ -70,11 +108,12 @@ const styles = StyleSheet.create({
     elevation: 2,
     flex: 1,
     backgroundColor: Colors.WHITE,
-    marginBottom: 20,
-    padding: 0,
+    marginBottom: 15,
+    paddingVertical: 5,
+    marginTop: 3,
     width: '95%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });
 
-export default RestaurantScreen
+export default RestaurantScreen;

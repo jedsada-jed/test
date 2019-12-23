@@ -18,6 +18,9 @@ https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+in+เข�
 ###
 https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+in+bangsue+bangkok&radius=3000&key=AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI&fields==
 
+###
+https://maps.googleapis.com/maps/api/place/photo?photoreference=CoQBeQAAAAgOdveT3dRtzoJ42BTBZfCdZptWsqLN3bROkP4FVHNNX-qjxBiw0vdGpDaX_lVb3rcaQf5hBVvrEdMUMDKB2gcsIOaVNII_zLvY-5Kf4rOuTXElOgSHb5vxJoB-o70Oh0Bs-zxxUpHM0Ji_BPk2RpXoKdf8jG_QLPaulXWoC7TcEhDSLjj-4_l3hJpD0W_qBtoMGhT1MK1GRVFH1dnJolimMP7Z8a2tZA&key=AIzaSyAuZlLAtyh6hJc-bHBZQcOkg9oG7NhAgMI&maxwidth=150
+
 
 
 

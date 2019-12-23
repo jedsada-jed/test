@@ -6,24 +6,28 @@ import * as Colors from '../../constants/color';
 
 export default AppBar = ({
   title,
+  fontColor,
   hideBackBtn,
-  statusBarColor = Colors.RED,
-  appBarColor = [Colors.RED, Colors.RED_DARK],
+  appBarColor,
+  statusBarColor,
 }) => {
   const navigation = useContext(NavigationContext);
 
   return (
     <LinearGradient colors={appBarColor} style={styles.appBar}>
-      <StatusBar backgroundColor={statusBarColor} barStyle="light-content" />
+      <StatusBar backgroundColor={statusBarColor} barStyle={statusBarColor == Colors.RED ? "light-content" : "dark-content"} />
       <View style={styles.wrapFlex}>
         {!hideBackBtn &&
           <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.goBack()}>
-            <Text style={{ fontFamily: 'Arial', fontSize: 15, color: Colors.WHITE }}>
+            <Text style={{ fontFamily: 'Arial', fontSize: 15, color: fontColor }}>
               {'Back'}
             </Text>
           </TouchableOpacity>}
       </View>
-      {!!title && <Text style={styles.title}> {title}</Text>}
+      {!!title &&
+        <Text style={[styles.title, { color: fontColor }]}>
+          {title}
+        </Text>}
       <View style={styles.wrapFlex} />
     </LinearGradient>
   )
@@ -41,7 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: Colors.WHITE,
     fontSize: 20,
     fontWeight: 'bold'
   },
