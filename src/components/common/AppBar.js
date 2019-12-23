@@ -1,7 +1,13 @@
 import React, { useContext } from 'react';
-import { StatusBar, View, Button, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { NavigationContext } from 'react-navigation'
+import {
+  StatusBar,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { NavigationContext } from 'react-navigation';
 import * as Colors from '../../constants/color';
 
 export default AppBar = ({
@@ -15,23 +21,22 @@ export default AppBar = ({
 
   return (
     <LinearGradient colors={appBarColor} style={styles.appBar}>
-      <StatusBar backgroundColor={statusBarColor} barStyle={statusBarColor == Colors.RED ? "light-content" : "dark-content"} />
+      <StatusBar
+        backgroundColor={statusBarColor}
+        barStyle={statusBarColor == Colors.YELLOW ? "dark-content" : "light-content"} />
       <View style={styles.wrapFlex}>
-        {!hideBackBtn &&
+        {!hideBackBtn && (
           <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.goBack()}>
-            <Text style={{ fontFamily: 'Arial', fontSize: 15, color: fontColor }}>
+            <Text style={[styles.textBtnLeft, { color: fontColor }]}>
               {'Back'}
             </Text>
-          </TouchableOpacity>}
+          </TouchableOpacity>)}
       </View>
-      {!!title &&
-        <Text style={[styles.title, { color: fontColor }]}>
-          {title}
-        </Text>}
+      {!!title && (<Text style={[styles.title, { color: fontColor }]}>{title}</Text>)}
       <View style={styles.wrapFlex} />
     </LinearGradient>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   appBar: {
@@ -48,8 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold'
   },
-  btnLeft: {
+  textBtnLeft: {
+    fontSize: 15,
   },
-  btnRight: {
-  }
 });
