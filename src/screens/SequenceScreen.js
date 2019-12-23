@@ -1,115 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import AppBar from '../components/common/AppBar';
+import * as Colors from '../constants/color'
+import MainTemplate from '../components/templates/MainTemplate';
 
 
-const SequenceScreen: () => React$Node = () => {
+const SequenceScreen = () => {
+  const [valSequence, setValSequence] = useState([3, 5, 9, 15]);
+
+  const addNextValue = () => {
+    const result = 2 * valSequence.length + valSequence[valSequence.length - 1];
+    setValSequence([...valSequence, result]);
+  };
+
+  const removeLastValue = () => {
+    if (valSequence.length > 4) {
+      valSequence.pop(valSequence.length - 1);
+      setValSequence([...valSequence]);
+    }
+  };
+
   return (
-    <>
-      <AppBar statusBarColor={'green'} />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+    <MainTemplate
+      title={'Sequence'}
+      fontColor={Colors.WHITE}
+      statusBarColor={Colors.BLUE}
+      safeAreaTopColor={Colors.BLUE}
+      safeAreaBottomColor={Colors.BLUE}
+      appBarColor={[Colors.BLUE, Colors.BLUE]}>
+      <View style={styles.container}>
+        <View style={styles.wrapperSection}>
+          <TouchableOpacity onPress={() => addNextValue()}>
+            <View style={[styles.btnAction, { backgroundColor: Colors.BLUE }]}>
+              <Text style={styles.fontAction}>{'Add'}</Text>
             </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                {'SequenceScreen.js'}
-              </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.wrapperSection}>
+          <Text style={styles.fontResult}>{valSequence.join(', ')}</Text>
+        </View>
+
+        <View style={styles.wrapperSection}>
+          <TouchableOpacity onPress={() => removeLastValue()}>
+            <View style={[styles.btnAction, { backgroundColor: Colors.RED }]}>
+              <Text style={styles.fontAction}>{'Remove'}</Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </MainTemplate>
   );
 };
 
-
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  fontInput: {
+    fontSize: 70,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  btn: {
+    backgroundColor: Colors.LIGHT_GRAY,
+    height: 70,
+    width: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
   },
-  body: {
-    backgroundColor: Colors.white,
+  wrapperInput: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 60,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  wrapperSection: {
+    flex: 1,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  fontResult: {
+    fontSize: 35,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
+  container: {
+    flex: 1,
+    paddingTop: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  btnAction: {
+    width: 120,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  fontAction: {
+    color: Colors.WHITE,
   },
 });
 
